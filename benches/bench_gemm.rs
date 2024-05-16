@@ -1,5 +1,6 @@
 
 use bencher::run_gemm_external;
+use bencher::run_gemv_external;
 use criterion::BenchmarkId;
 use criterion::Criterion;
 
@@ -29,24 +30,36 @@ fn bench_gemm2(c: &mut Criterion) {
     let mut group = c.benchmark_group("openblas ticket");
 
     let mut config: GemmTest = GemmTest::new(1, 2048, 512);
-    let name = format!("m={},k={},n={}",config.m,config.k,config.n);
+    let name = format!("sgemm m={},k={},n={}",config.m,config.k,config.n);
     group.bench_function(BenchmarkId::new(name, 1),
         |b| b.iter(|| run_gemm_external(&mut config)));
+    let name = format!("sgemv m={},n={}",config.k,config.n);
+    group.bench_function(BenchmarkId::new(name, 1),
+        |b| b.iter(|| run_gemv_external(&mut config)));
 
     let mut config: GemmTest = GemmTest::new(1, 512, 512);
-    let name = format!("m={},k={},n={}",config.m,config.k,config.n);
+    let name = format!("sgemm m={},k={},n={}",config.m,config.k,config.n);
     group.bench_function(BenchmarkId::new(name, 2),
         |b| b.iter(|| run_gemm_external(&mut config)));
+    let name = format!("sgemv m={},n={}",config.k,config.n);
+    group.bench_function(BenchmarkId::new(name, 1),
+        |b| b.iter(|| run_gemv_external(&mut config)));
 
     let mut config: GemmTest = GemmTest::new(1, 512, 2048);
-    let name = format!("m={},k={},n={}",config.m,config.k,config.n);
+    let name = format!("sgemm m={},k={},n={}",config.m,config.k,config.n);
     group.bench_function(BenchmarkId::new(name, 3),
         |b| b.iter(|| run_gemm_external(&mut config)));
+    let name = format!("sgemv m={},n={}",config.k,config.n);
+    group.bench_function(BenchmarkId::new(name, 1),
+        |b| b.iter(|| run_gemv_external(&mut config)));
 
     let mut config: GemmTest = GemmTest::new(1, 512, 32128);
-    let name = format!("m={},k={},n={}",config.m,config.k,config.n);
+    let name = format!("sgemm m={},k={},n={}",config.m,config.k,config.n);
     group.bench_function(BenchmarkId::new(name, 3),
         |b| b.iter(|| run_gemm_external(&mut config)));
+    let name = format!("sgemv m={},n={}",config.k,config.n);
+    group.bench_function(BenchmarkId::new(name, 1),
+        |b| b.iter(|| run_gemv_external(&mut config)));
 
     group.finish();
 }

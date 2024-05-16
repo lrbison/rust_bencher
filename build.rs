@@ -10,4 +10,5 @@ fn main ()
     println!("cargo:rustc-link-search={}", blas_path); // -L $BLAS_PATH
     println!("cargo:rustc-link-lib={}", blas_lib);
     println!("cargo:rustc-env=LD_LIBRARY_PATH={}", blas_path);
+    println!("cargo:rerun-if-changed=BLAS_LIB");
 }
