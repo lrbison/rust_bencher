@@ -1,0 +1,23 @@
+[package]
+name = "bencher"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "main_gemm"
+path = "src/main_gemm.rs"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+vrd = "0.0.7"
+serde = { version = "1.0.160", features = ["derive"] }
+libc = "0.2"
+
+[dev-dependencies]
+criterion = "0.3"
+
+[[bench]]
+name = "bench_gemm"
+harness = false
